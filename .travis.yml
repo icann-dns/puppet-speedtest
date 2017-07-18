@@ -1,0 +1,39 @@
+---
+sudo: false
+dist: trusty
+language: ruby
+cache: bundler
+bundler_args: --without system_tests development
+before_install:
+  - bundle -v
+  - rm Gemfile.lock || true
+  - gem update --system
+  - gem update bundler
+  - gem --version
+  - bundle -v
+script:
+  - 'bundle exec rake $CHECK'
+env: ["CHECK=rubocop", "PUPPET_VERSION=\"~> 4.6.0\" STRICT_VARIABLES=yes CHECK=test", "PUPPET_VERSION=\"~> 4.7.0\" STRICT_VARIABLES=yes CHECK=test", "PUPPET_VERSION=\"~> 4.8.0\" STRICT_VARIABLES=yes CHECK=test", "PUPPET_VERSION=\"~> 4.9.0\" STRICT_VARIABLES=yes CHECK=test", "PUPPET_VERSION=\"~> 4.10.0\" STRICT_VARIABLES=yes CHECK=test", "PUPPET_VERSION=\"~> 5.0.0\" STRICT_VARIABLES=yes CHECK=test"]
+rvm: [2.2, 2.3, 2.4]
+matrix:
+  fast_finish: true
+ 
+  exclude:
+  - rvm: 2.2
+    env: CHECK=rubocop
+  include:
+notifications:
+  email: false
+deploy:
+  provider: puppetforge
+  deploy:
+    branch: ha-bug-puppet-forge
+  user: icann
+  password:
+    secure: "X6HE4ZiXgiDishMlrDTPROuE9Z4U2fQqnCvLFkf7imi+JDrM85c7LKA2pGqOtyMg1FEXrNVSjuSLkNzGXu4Qg7m0h7G42KqTGwnPGfqd35RdCd1Pgpf00oOPCfFna7Z/yoJCXbNNG7K067yK/C6IzHPD/ca5O/JHDHWSqSEYh7rB6adWpuMzwxqgQ0CW+shOW+CKYlQmRqXsLK1dnKlAXU6sY4kCs78dSIsz2TR8878LquAnPkjsOE7Rc3XlZ96CefFYR/NSAKF/iFai8R/k/TahSjc6j7PTEz6PY2thq140eXGb3QJy6HJcf9P79k5m9Kx+jcKxZy4SMXCKK+EdDZeHrJiEL3EPr1YKScFfnynf79GUG1zfUeZ5I84t/PKcQt8hCBmPny9hmFzMROaMoHKg1g49dfLF+bjAu+M24LG47jC70AdVDZgFWQ86ysscPCEuNK/8yotVwuytRdr3Y5W8SLF77lKVgCbMmM5W/yyh8Ybwa7kVAA+UumrWZT4qhJMBKmBDdpOAgm5fNGJ8RZIVFKmAfBm9VtM94v5TlJ4EbpC8VRKWy1MbKyUvQTP/N28iZEQcMoybyUMJUOg2Su6gUIliZOjXsSnNrXbk8rJjx0Jtiz4ZwOznfGMF8BrQWtSiqymNwOotfvnnWxhnQI8GOGkTa+gE6pqFArWfD0Y="
+  on:
+    tags: true
+    # all_branches is required to use tags
+    all_branches: true
+    # Only publish the build marked with "DEPLOY_TO_FORGE"
+    condition: "$DEPLOY_TO_FORGE = yes"
