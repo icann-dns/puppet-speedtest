@@ -4,17 +4,17 @@ class speedtest (
   Enum['present', 'absent']      $ensure            = present,
   Boolean                        $enabled           = true,
   Stdlib::Absolutepath           $speedtest_run     = '/usr/local/bin/speedtest-run.sh',
-  String                         $user         = 'root',
-  String                         $group        = 'root',
+  String                         $user              = 'root',
+  String                         $group             = 'root',
   Stdlib::Absolutepath           $output_dir        = $::speedtest::params::output_dir,
   Stdlib::Absolutepath           $output_file       = $::speedtest::params::output_file,
-  String                         $ssh_key_source    = 'puppet:///modules/submodule_files/speedtest/.ssh/speedtest_upload_id.rsa',
   Boolean                        $enable_upload     = false,
   Optional[Stdlib::Absolutepath] $upload_dir        = undef,
   Optional[Tea::Host]            $upload_host       = undef,
-  String                               $upload_user       = 'speedtest',
-  Boolean                              $use_pip           = $::speedtest::params::use_pip,
-  String                               $package           = $::speedtest::params::package,
+  Optional[Tea::Puppetsource]    $upload_key_source = undef,
+  String                         $upload_user       = 'speedtest',
+  Boolean                        $use_pip           = $::speedtest::params::use_pip,
+  String                         $package           = $::speedtest::params::package,
 ) inherits speedtest::params {
   if $use_pip {
     package {$package:
@@ -52,7 +52,7 @@ class speedtest (
     patterns         => [$output_file],
     destination_path => $upload_dir,
     destination_host => $upload_host,
-    ssh_key_source   => $ssh_key_source,
+    ssh_key_source   => $upload_key_source,
     ssh_user         => $upload_user,
   }
 }
