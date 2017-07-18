@@ -23,5 +23,5 @@ class speedtest::params {
     }
   }
   $output_dir = '/var/tmp'
-  $ouput_file = "${output_dir}/speedtest-${::fqdn}.csv"
+  $ouput_file = "${output_dir}/speedtest-${::fqdn}"
 }
