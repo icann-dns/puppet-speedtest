@@ -1,7 +1,6 @@
 # == Class: speedtest
 #
 class speedtest (
-  Enum['present', 'absent']      $ensure            = present,
   Boolean                        $enabled           = true,
   Stdlib::Absolutepath           $speedtest_run     = '/usr/local/bin/speedtest-run.sh',
   String                         $user              = 'root',
@@ -16,6 +15,12 @@ class speedtest (
   Boolean                        $use_pip           = $::speedtest::params::use_pip,
   String                         $package           = $::speedtest::params::package,
 ) inherits speedtest::params {
+
+  $ensure = $enabled ? {
+    true    => 'present',
+    default => 'absent',
+  }
+
   if $use_pip {
     package {$package:
       provider => 'pip',
