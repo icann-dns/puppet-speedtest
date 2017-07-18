@@ -22,6 +22,6 @@ class speedtest::params {
       fail("speedtest does not support ${::kernel}")
     }
   }
-  $output_dir = '/var/tmp'
-  $ouput_file = "${output_dir}/speedtest-${::fqdn}"
+  $output_dir       = '/var/tmp'
+  $output_file_name = "speedtest-${::fqdn}"
 }

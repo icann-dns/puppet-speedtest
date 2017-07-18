@@ -1,18 +1,21 @@
 #!/bin/bash
 PATH=/usr/bin:/usr/local/bin
 
-OUTPUT=<%= @output_file %>.<%= @output_format %>
+OUTPUT=<%= @_output_file %>
+<%- if @location %>
 SERVERS="$(speedtest-cli --list| awk -F\) '/<%= @location %>/ {print $1}' | head -<%= @no_test_servers %>)"
+<%- end -%>
+CMD="speedtest-cli --<%= @output_format %><% if !@upload_test %> --no-upload<% end %><% if !@download_test %> --no-download<% end %>"
 rm -rf ${OUTPUT}
 for i in {1..<%= @no_tests %>}
 do
   if [ -z "${SERVERS}" ]
   then
-    speedtest-cli --<%= @output_format %> >> ${OUTPUT}
+    ${CMD} >> ${OUTPUT}
   else
     for SERVER in ${SERVERS}
     do
-      speedtest-cli --<%= @output_format %> --server ${SERVER} >> ${OUTPUT}
+      ${CMD} --server ${SERVER} >> ${OUTPUT}
     done
   fi
 done

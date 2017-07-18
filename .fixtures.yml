@@ -1,0 +1,13 @@
+fixtures:
+    symlinks:
+      speedtest: "#{source_dir}"
+    repositories:
+      stdlib:
+        repo: https://github.com/puppetlabs/puppetlabs-stdlib.git
+        ref: 4.17.0
+      tea:
+        repo: https://github.com/icann-dns/puppet-tea.git
+      file_upload:
+        repo: https://github.com/icann-dns/puppet-file_upload.git
+      logrotate:
+        repo: https://github.com/icann-dns/puppet-logrotate

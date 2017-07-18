@@ -6,11 +6,12 @@ class speedtest (
   String                         $user              = 'root',
   String                         $group             = 'root',
   Stdlib::Absolutepath           $output_dir        = $::speedtest::params::output_dir,
-  Stdlib::Absolutepath           $output_file       = $::speedtest::params::output_file,
+  String                         $output_file_name  = $::speedtest::params::output_file_name,
   Boolean                        $use_pip           = $::speedtest::params::use_pip,
   String                         $package           = $::speedtest::params::package,
   Optional[String]               $location          = undef,
-  Integer                        $tests             = 1,
+  Integer                        $no_tests          = 1,
+  Integer                        $no_test_servers   = 1,
   Boolean                        $upload_test       = true,
   Boolean                        $download_test     = true,
   Enum['json', 'csv']            $output_format     = 'csv',
@@ -20,20 +21,20 @@ class speedtest (
   Optional[Tea::Puppetsource]    $upload_key_source = undef,
   String                         $upload_user       = 'speedtest',
 ) inherits speedtest::params {
-
+  $_output_file = "${output_dir}/${output_file_name}/${output_format}"
   if $use_pip {
     package {$package:
       provider => 'pip',
     }
   } else {
-    ensure_package($package)
+    ensure_packages([$package])
   }
   file {$speedtest_run:
-    ensure => file,
-    source => "puppet:///modules/speedtest/${speedtest_run}",
-    mode   => '0755',
-    group  => $group,
-    owner  => $user,
+    ensure  => file,
+    content => template('speedtest/usr/local/bin/speedtest-run.sh.erb'),
+    mode    => '0755',
+    group   => $group,
+    owner   => $user,
   }
   file{ $output_dir:
     ensure => directory,
@@ -51,11 +52,14 @@ class speedtest (
     minute   => fqdn_rand(59),
   }
   if $enable_upload {
+    if !$upload_dir or !$upload_key_source or !$upload_user {
+      fail('if using enable_upload then you must specify all $upload_dir, $upload_key_source and $upload_user')
+    }
     include ::file_upload
     file_upload::upload { 'speedtest':
       ensure           => $ensure,
       data             => $output_dir,
-      patterns         => [$output_file],
+      patterns         => [$_output_file],
       destination_path => $upload_dir,
       destination_host => $upload_host,
       ssh_key_source   => $upload_key_source,
