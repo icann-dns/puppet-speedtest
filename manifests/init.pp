@@ -1,7 +1,7 @@
 # == Class: speedtest
 #
 class speedtest (
-  Boolean                        $enabled           = true,
+  Boolean                        $enabled           = false,
   Stdlib::Absolutepath           $speedtest_run     = '/usr/local/bin/speedtest-run.sh',
   String                         $user              = 'root',
   String                         $group             = 'root',
