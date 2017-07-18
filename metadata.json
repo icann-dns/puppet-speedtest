@@ -1,0 +1,25 @@
+{
+  "name": "icann-speedtest",
+  "version": "0.1.0",
+  "author": "Mauricio Vergara Ereche <mauricio.vergara@icann.org>",
+  "summary": "Command line interface for testing internet bandwidth using speedtest.net",
+  "license": "Apache-2.0",
+  "source": "https://github.com/icann-dns/puppet-speedtest",
+  "project_page": "https://github.com/sivel/speedtest-cli",
+  "issues_url": "https://github.com/sivel/speedtest-cli/issues",
+  "dependencies": [
+    {"name":"puppetlabs-stdlib","version_requirement":">= 4.17.0 <5.0.0"},
+    {"name":"icann-tea","version_requirement":">= 0.2.8 <0.3.0"}
+  ],
+  "operatingsystem_support": [
+    {
+      "operatingsystem" : "Ubuntu",
+      "operatingsystemrelease" : [ "14.04", "16.04" ]
+    },
+    {
+      "operatingsystem" : "FreeBSD",
+      "operatingsystemrelease" : [ "10" ]
+    }
+  ]
+}
+
