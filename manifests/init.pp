@@ -1,7 +1,7 @@
 # == Class: speedtest
 #
 class speedtest (
-  Boolean                        $enabled           = false,
+  Enum['present', 'absent']      $ensure            = present,
   Stdlib::Absolutepath           $speedtest_run     = '/usr/local/bin/speedtest-run.sh',
   String                         $user              = 'root',
   String                         $group             = 'root',
@@ -20,11 +20,6 @@ class speedtest (
   Optional[Tea::Puppetsource]    $upload_key_source = undef,
   String                         $upload_user       = 'speedtest',
 ) inherits speedtest::params {
-
-  $ensure = $enabled ? {
-    true    => 'present',
-    default => 'absent',
-  }
 
   if $use_pip {
     package {$package:
