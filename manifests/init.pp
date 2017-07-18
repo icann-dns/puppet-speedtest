@@ -8,13 +8,18 @@ class speedtest (
   String                         $group             = 'root',
   Stdlib::Absolutepath           $output_dir        = $::speedtest::params::output_dir,
   Stdlib::Absolutepath           $output_file       = $::speedtest::params::output_file,
+  Boolean                        $use_pip           = $::speedtest::params::use_pip,
+  String                         $package           = $::speedtest::params::package,
+  Optional[String]               $location          = undef,
+  Integer                        $tests             = 1,
+  Boolean                        $upload_test       = true,
+  Boolean                        $download_test     = true,
+  Enum['json', 'csv']            $output_format     = 'csv',
   Boolean                        $enable_upload     = false,
   Optional[Stdlib::Absolutepath] $upload_dir        = undef,
   Optional[Tea::Host]            $upload_host       = undef,
   Optional[Tea::Puppetsource]    $upload_key_source = undef,
   String                         $upload_user       = 'speedtest',
-  Boolean                        $use_pip           = $::speedtest::params::use_pip,
-  String                         $package           = $::speedtest::params::package,
 ) inherits speedtest::params {
   if $use_pip {
     package {$package:
@@ -45,14 +50,16 @@ class speedtest (
     hour     => fqdn_rand(23),
     minute   => fqdn_rand(59),
   }
-  include ::file_upload
-  file_upload::upload { 'speedtest':
-    ensure           => $ensure,
-    data             => $output_dir,
-    patterns         => [$output_file],
-    destination_path => $upload_dir,
-    destination_host => $upload_host,
-    ssh_key_source   => $upload_key_source,
-    ssh_user         => $upload_user,
+  if $enable_upload {
+    include ::file_upload
+    file_upload::upload { 'speedtest':
+      ensure           => $ensure,
+      data             => $output_dir,
+      patterns         => [$output_file],
+      destination_path => $upload_dir,
+      destination_host => $upload_host,
+      ssh_key_source   => $upload_key_source,
+      ssh_user         => $upload_user,
+    }
   }
 }
