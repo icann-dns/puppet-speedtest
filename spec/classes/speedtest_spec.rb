@@ -27,7 +27,6 @@ describe 'speedtest' do
       # group: "root",
       # output_dir: "$::speedtest::params::output_dir",
       # output_file_name: "$::speedtest::params::output_file_name",
-      # use_pip: "$::speedtest::params::use_pip",
       # package: "$::speedtest::params::package",
       # location: :undef,
       # tests: "1",
@@ -52,12 +51,8 @@ describe 'speedtest' do
       let(:facts) do
         facts
       end
-      case facts[:kernel]
-      when 'FreeBSD'
-        let(:package) { 'py27-speedtest-cli' }
-      else
-        let(:package) { 'speedtest-cli' }
-      end
+      let(:package) { 'speedtest-cli' }
+
       describe 'check default config' do
         it { is_expected.to compile.with_all_deps }
         it { is_expected.to contain_package(package) }
@@ -168,11 +163,6 @@ describe 'speedtest' do
               %r{OUTPUT=/var/tmp/foobar.csv}
             )
           end
-        end
-        context 'use_pip' do
-          before { params.merge!(use_pip: true) }
-          it { is_expected.to compile }
-          it { is_expected.to contain_package(package).with_provider('pip') }
         end
         context 'package' do
           before { params.merge!(package: 'foobar') }
@@ -285,10 +275,6 @@ describe 'speedtest' do
         end
         context 'output_file_name' do
           before { params.merge!(output_file_name: true) }
-          it { expect { subject.call }.to raise_error(Puppet::Error) }
-        end
-        context 'use_pip' do
-          before { params.merge!(use_pip: 'foobar') }
           it { expect { subject.call }.to raise_error(Puppet::Error) }
         end
         context 'package' do

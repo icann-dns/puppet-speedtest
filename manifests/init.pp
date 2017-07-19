@@ -5,10 +5,9 @@ class speedtest (
   Stdlib::Absolutepath           $speedtest_run     = '/usr/local/bin/speedtest-run.sh',
   String                         $user              = 'root',
   String                         $group             = 'root',
-  Stdlib::Absolutepath           $output_dir        = $::speedtest::params::output_dir,
+  Stdlib::Absolutepath           $output_dir        = '/var/tmp',
   String                         $output_file_name  = $::speedtest::params::output_file_name,
-  Boolean                        $use_pip           = $::speedtest::params::use_pip,
-  String                         $package           = $::speedtest::params::package,
+  String                         $package           = 'speedtest-cli',
   Optional[String]               $location          = undef,
   Integer                        $no_tests          = 1,
   Integer                        $no_test_servers   = 1,
@@ -22,12 +21,8 @@ class speedtest (
   String                         $upload_user       = 'speedtest',
 ) inherits speedtest::params {
   $_output_file = "${output_dir}/${output_file_name}/${output_format}"
-  if $use_pip {
-    package {$package:
-      provider => 'pip',
-    }
-  } else {
-    ensure_packages([$package])
+  package {$package:
+    provider => 'pip',
   }
   file {$speedtest_run:
     ensure  => file,
