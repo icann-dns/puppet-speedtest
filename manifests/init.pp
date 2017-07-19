@@ -5,7 +5,7 @@ class speedtest (
   Stdlib::Absolutepath           $speedtest_run     = '/usr/local/bin/speedtest-run.sh',
   String                         $user              = 'root',
   String                         $group             = 'root',
-  Stdlib::Absolutepath           $output_dir        = '/var/tmp',
+  Stdlib::Absolutepath           $output_dir        = '/var/tmp/speedtest',
   String                         $output_file_name  = $::speedtest::params::output_file_name,
   String                         $package           = 'speedtest-cli',
   Optional[String]               $location          = undef,
