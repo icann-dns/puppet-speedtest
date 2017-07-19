@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe 'speedtest' do
@@ -41,6 +43,7 @@ describe 'speedtest' do
 
     }
   end
+
   # add these two lines in a single test block to enable puppet and hiera debug mode
   # Puppet::Util::Log.level = :debug
   # Puppet::Util::Log.newdestination(:console)
@@ -77,14 +80,14 @@ describe 'speedtest' do
             ensure: 'directory',
             mode: '0755',
             group: 'root',
-            owner: 'root',
+            owner: 'root'
           )
         end
         it do
           is_expected.to contain_cron('speedtest-run').with(
             ensure: 'present',
             command: '/usr/bin/flock -n /var/lock/speedtest-run.lock /usr/local/bin/speedtest-run.sh',
-            user: 'root',
+            user: 'root'
           )
         end
         it { is_expected.not_to contain_file_upload__upload('speedtest') }
@@ -98,7 +101,6 @@ describe 'speedtest' do
         context 'speedtest_run' do
           before { params.merge!(speedtest_run: '/foobar') }
           it { is_expected.to compile }
-          # Add Check to validate change was successful
           it do
             is_expected.to contain_file('/foobar').with(
               ensure: 'file',
@@ -111,7 +113,7 @@ describe 'speedtest' do
             is_expected.to contain_cron('speedtest-run').with(
               ensure: 'present',
               command: '/usr/bin/flock -n /var/lock/speedtest-run.lock /foobar',
-              user: 'root',
+              user: 'root'
             )
           end
         end
@@ -130,7 +132,7 @@ describe 'speedtest' do
             is_expected.to contain_cron('speedtest-run').with(
               ensure: 'present',
               command: '/usr/bin/flock -n /var/lock/speedtest-run.lock /usr/local/bin/speedtest-run.sh',
-              user: 'foobar',
+              user: 'foobar'
             )
           end
         end
@@ -231,7 +233,7 @@ describe 'speedtest' do
               enable_upload: true,
               upload_dir: '/foobar',
               upload_host: 'foobar',
-              upload_key_source: 'puppet:///modules/foobar',
+              upload_key_source: 'puppet:///modules/foobar'
             )
           end
           it { is_expected.to compile }
@@ -243,7 +245,7 @@ describe 'speedtest' do
               destination_path: '/foobar',
               destination_host: 'foorbar',
               ssh_key_source: 'puppet:///modules/foobar',
-              ssh_user: 'speedtest',
+              ssh_user: 'speedtest'
             )
           end
         end

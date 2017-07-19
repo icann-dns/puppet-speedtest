@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/icann-dns/puppet-speedtest.svg?branch=master)](https://travis-ci.org/icann-dns/puppet-speedtest)
+[![Puppet Forge](https://img.shields.io/puppetforge/v/icann/speedtest.svg?maxAge=2592000)](https://forge.puppet.com/icann/dns)
+[![Puppet Forge Downloads](https://img.shields.io/puppetforge/dt/icann/speedtest.svg?maxAge=2592000)](https://forge.puppet.com/icann/dns)
 # puppet-speedtest
 
 #### Table of Contents
