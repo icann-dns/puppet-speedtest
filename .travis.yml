@@ -22,7 +22,7 @@ matrix:
   - rvm: 2.2
     env: CHECK=rubocop
   include:
-    - rvm: 2.4.0
+  - rvm: 2.4.0
     env: PUPPET_VERSION="~> 4.0" CHECK=build DEPLOY_TO_FORGE=yes
 notifications:
   email: false
