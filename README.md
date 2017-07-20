@@ -101,7 +101,14 @@ class {'::speedtest':
 '/usr/local/bin/speedtest-run.sh'): Location and name for the script that will run the cronjob
 * `user` (String, Default: 'root'): user that owns the directory where output is saved
 * `group` (String, Default: 'root'): group that owns the directory where output is saved
+* `output_dir` (Stdlib:Absolutepath, Default: /var/tmp/speedtest): where to store the report 
+* `output_file_name` (String, Default: speedtest-$::fqdn): the file name of the report
+* `package` (String, Default: speedtest-cli): the pip package to install
 * `location` (Optional|String, Default: undef): Closest city to test the bandwidth against to.
+* `no_tests` (Interger, Default: 1): the number of tests to preform
+* `no_test_servers` (Interger, Default: 1): If location is present the number of servers to test from that location
+* `upload_test` (Boolean, Default: true): weather or not to preform an upload test
+* `download_test` (Boolean, Default: true): weather or not to preform an download test
 * `output_format` (<json|csv>, Default: 'csv'): Output format after run the test
 * `enable_upload` (Boolean, Default: false): Enable the use of `::file_upload`
 * `upload_dir` (Optional|Stdlib:Absolutepath,, Default: undef): Location of remote host to upload output
