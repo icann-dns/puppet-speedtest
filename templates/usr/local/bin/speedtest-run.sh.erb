@@ -6,7 +6,6 @@ OUTPUT=<%= @_output_file %>
 SERVERS="$(speedtest-cli --list| awk -F\) '/<%= @location %>/ {print $1}' | head -<%= @no_test_servers %>)"
 <%- end -%>
 CMD="speedtest-cli --<%= @output_format %><% if !@upload_test %> --no-upload<% end %><% if !@download_test %> --no-download<% end %>"
-#rm -rf ${OUTPUT}
 for i in {1..<%= @no_tests %>}
 do
   if [ -z "${SERVERS}" ]
