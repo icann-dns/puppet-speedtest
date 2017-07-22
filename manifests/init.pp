@@ -54,7 +54,7 @@ class speedtest (
     file_upload::upload { 'speedtest':
       ensure           => $ensure,
       data             => $output_dir,
-      patterns         => [${output_file_name}\*${output_format}],
+      patterns         => ["${output_file_name}*${output_format}"],
       destination_path => $upload_dir,
       destination_host => $upload_host,
       ssh_key_source   => $upload_key_source,
