@@ -97,8 +97,7 @@ class {'::speedtest':
 ### Public classes
 
 * `ensure` (<present|absent>, Default: present): To activate or not the module so the file structure and scripts can be created
-* `speedtest_run` (Stdlib:Absolutepath, Default:
-'/usr/local/bin/speedtest-run.sh'): Location and name for the script that will run the cronjob
+* `speedtest_run` (Stdlib:Absolutepath, Default: '/usr/local/bin/speedtest-run.sh'): Location and name for the script that will run the cronjob
 * `user` (String, Default: 'root'): user that owns the directory where output is saved
 * `group` (String, Default: 'root'): group that owns the directory where output is saved
 * `output_dir` (Stdlib:Absolutepath, Default: /var/tmp/speedtest): where to store the report 
