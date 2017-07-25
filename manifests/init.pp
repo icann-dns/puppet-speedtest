@@ -1,7 +1,7 @@
 # == Class: speedtest
 #
 class speedtest (
-  Enum['present', 'absent']      $ensure            = present,
+  Enum['present', 'absent']      $ensure            = 'present',
   Stdlib::Absolutepath           $speedtest_run     = '/usr/local/bin/speedtest-run.sh',
   String                         $user              = 'root',
   String                         $group             = 'root',
