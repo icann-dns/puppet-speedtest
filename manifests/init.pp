@@ -11,7 +11,7 @@ class speedtest (
   Optional[String]               $location          = undef,
   Integer                        $no_tests          = 1,
   Integer                        $no_test_servers   = 1,
-  Variant[Integer,String]        $monthday          = '1-7',
+  String                         $monthday          = '1-7',
   Integer                        $weekday           = 2,
   Boolean                        $upload_test       = true,
   Boolean                        $download_test     = true,
@@ -41,7 +41,7 @@ class speedtest (
   }
   cron {'speedtest-run':
     ensure   => $ensure,
-    command  => "test $(date +\%u) -eq ${weekday} && /usr/bin/flock -n /var/lock/speedtest-run.lock ${speedtest_run}",
+    command  => "test $(date +%u) -eq ${weekday} && /usr/bin/flock -n /var/lock/speedtest-run.lock ${speedtest_run}",
     user     => $user,
     require  => [ Package[$package], File[$speedtest_run]],
     monthday => $monthday,
