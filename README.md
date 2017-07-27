@@ -114,6 +114,8 @@ class {'::speedtest':
 * `upload_host` (Optional|Tea::Host, Default: undef): Hostname or IP of the remote host to upload the output
 * `upload_key_source` (Optional|Tea:Puppetsource, Default: undef): puppet resource that defines where the ssh key is located to conect to the remote host (Note: the public/private key pair must be created before using this module and configured on the other host as well)
 * `upload_user` (String, Default: 'speedtest'): username of the remote user host to upload the output
+* `weekday` (Integer|String, Default 'Tuesday'): The weekday on which to run the speedtest-run. Can be number, or literal day (string)
+* `monthday` (Integer|String, Default 'Tuesday'): The day of the month on which to run the speedtest-run. Can be one day or a range of days.
 
 ### Private classes
 
