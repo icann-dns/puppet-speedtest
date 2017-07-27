@@ -11,6 +11,8 @@ class speedtest (
   Optional[String]               $location          = undef,
   Integer                        $no_tests          = 1,
   Integer                        $no_test_servers   = 1,
+  Variant[Integer,String]        $monthday          = '1-7',
+  Variant[Integer,String]        $weekday           = 'Tuesday',
   Boolean                        $upload_test       = true,
   Boolean                        $download_test     = true,
   Enum['json', 'csv']            $output_format     = 'csv',
@@ -42,7 +44,8 @@ class speedtest (
     command  => "/usr/bin/flock -n /var/lock/speedtest-run.lock ${speedtest_run}",
     user     => $user,
     require  => [ Package[$package], File[$speedtest_run]],
-    monthday => 18,
+    monthday => $monthday,
+    weekday  => $weekday,
     hour     => fqdn_rand(23),
     minute   => fqdn_rand(59),
   }
