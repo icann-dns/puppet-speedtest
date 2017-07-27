@@ -47,8 +47,8 @@ class speedtest (
     minute   => fqdn_rand(59),
   }
   if $enable_upload {
-    if !$upload_dir or !$upload_key_source or !$upload_user {
-      fail('if using enable_upload then you must specify all $upload_dir, $upload_key_source and $upload_user')
+    if !$upload_dir or !$upload_key_source or !$upload_user or !$upload_host {
+      fail('if using enable_upload then you must specify all $upload_dir, $upload_key_source, $upload_user and $upload_host')
     }
     include ::file_upload
     file_upload::upload { 'speedtest':
