@@ -12,7 +12,7 @@ class speedtest (
   Integer                        $no_tests          = 1,
   Integer                        $no_test_servers   = 1,
   String                         $monthday          = '1-7',
-  Integer                        $weekday           = 2,
+  Integer[0,7]                   $weekday           = 2,
   Boolean                        $upload_test       = true,
   Boolean                        $download_test     = true,
   Enum['json', 'csv']            $output_format     = 'csv',

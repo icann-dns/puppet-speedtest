@@ -70,13 +70,13 @@ describe 'speedtest' do
           ).with_content(
             %r{CMD="speedtest-cli --csv"}
           ).with_content(
-            %r{OUTPUT=/var/tmp/speedtest-speedtest.example.com.csv}
+            %r{OUTPUT=/var/tmp/speedtest/speedtest-speedtest.example.com.csv}
           ).with_content(
             %r{for i in \{1..1\}}
           )
         end
         it do
-          is_expected.to contain_file('/var/tmp').with(
+          is_expected.to contain_file('/var/tmp/speedtest').with(
             ensure: 'directory',
             mode: '0755',
             group: 'root',
@@ -86,7 +86,7 @@ describe 'speedtest' do
         it do
           is_expected.to contain_cron('speedtest-run').with(
             ensure: 'present',
-            command: '/usr/bin/flock -n /var/lock/speedtest-run.lock /usr/local/bin/speedtest-run.sh',
+            command: 'test $(date +%u) -eq 2 && /usr/bin/flock -n /var/lock/speedtest-run.lock /usr/local/bin/speedtest-run.sh',
             user: 'root'
           )
         end
@@ -112,7 +112,7 @@ describe 'speedtest' do
           it do
             is_expected.to contain_cron('speedtest-run').with(
               ensure: 'present',
-              command: '/usr/bin/flock -n /var/lock/speedtest-run.lock /foobar',
+              command: 'test $(date +%u) -eq 2 && /usr/bin/flock -n /var/lock/speedtest-run.lock /foobar',
               user: 'root'
             )
           end
@@ -131,8 +131,19 @@ describe 'speedtest' do
           it do
             is_expected.to contain_cron('speedtest-run').with(
               ensure: 'present',
-              command: '/usr/bin/flock -n /var/lock/speedtest-run.lock /usr/local/bin/speedtest-run.sh',
+              command: 'test $(date +%u) -eq 2 && /usr/bin/flock -n /var/lock/speedtest-run.lock /usr/local/bin/speedtest-run.sh',
               user: 'foobar'
+            )
+          end
+        end
+        context 'weekday' do
+          before { params.merge!(weekday: 5) }
+          it { is_expected.to compile }
+          it do
+            is_expected.to contain_cron('speedtest-run').with(
+              ensure: 'present',
+              command: 'test $(date +%u) -eq 5 && /usr/bin/flock -n /var/lock/speedtest-run.lock /usr/local/bin/speedtest-run.sh',
+              user: 'root'
             )
           end
         end
@@ -162,7 +173,7 @@ describe 'speedtest' do
           it { is_expected.to compile }
           it do
             is_expected.to contain_file('/usr/local/bin/speedtest-run.sh').with_content(
-              %r{OUTPUT=/var/tmp/foobar.csv}
+              %r{OUTPUT=/var/tmp/speedtest/foobar.csv}
             )
           end
         end
@@ -223,7 +234,7 @@ describe 'speedtest' do
             is_expected.to contain_file('/usr/local/bin/speedtest-run.sh').with_content(
               %r{CMD="speedtest-cli --json"}
             ).with_content(
-              %r{OUTPUT=/var/tmp/speedtest-speedtest.example.com.json}
+              %r{OUTPUT=/var/tmp/speedtest/speedtest-speedtest.example.com.json}
             )
           end
         end
@@ -241,7 +252,7 @@ describe 'speedtest' do
             is_expected.not_to contain_file_upload__upload('speedtest').with(
               ensure: 'present',
               data: '/var/tmp',
-              patterns: ['/var/tmp/speedtest-speedtest.example.org'],
+              patterns: ['/var/tmp/speedtest/speedtest-speedtest.example.org'],
               destination_path: '/foobar',
               destination_host: 'foorbar',
               ssh_key_source: 'puppet:///modules/foobar',
