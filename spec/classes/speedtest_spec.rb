@@ -163,6 +163,14 @@ describe 'speedtest' do
           before { params.merge!(output_dir: '/foobar') }
           it { is_expected.to compile }
           it do
+            is_expected.to contain_file('/foobar').with(
+              ensure: 'directory',
+              mode: '0755',
+              group: 'root',
+              owner: 'root'
+            )
+          end
+          it do
             is_expected.to contain_file('/usr/local/bin/speedtest-run.sh').with_content(
               %r{OUTPUT=/foobar/speedtest-speedtest.example.com.csv}
             )
