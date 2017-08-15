@@ -4,7 +4,7 @@ class speedtest (
   Enum['present', 'absent']      $ensure            = 'present',
   Stdlib::Absolutepath           $speedtest_run     = '/usr/local/bin/speedtest-run.sh',
   String                         $user              = 'root',
-  String                         $group             = 'root',
+  String                         $group             = $::speedtest::params::group,
   Stdlib::Absolutepath           $output_dir        = '/var/tmp/speedtest',
   String                         $output_file_name  = $::speedtest::params::output_file_name,
   String                         $package           = 'speedtest-cli',
