@@ -41,7 +41,7 @@ class speedtest (
   }
   cron {'speedtest-run':
     ensure   => $ensure,
-    command  => "test $(date +%u) -eq ${weekday} && /usr/bin/flock -n /var/lock/speedtest-run.lock ${speedtest_run}",
+    command  => "test $(date +\%u) -eq ${weekday} && /usr/bin/flock -n /var/lock/speedtest-run.lock ${speedtest_run}",
     user     => $user,
     require  => [ Package[$package], File[$speedtest_run]],
     monthday => $monthday,
