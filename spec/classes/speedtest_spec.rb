@@ -86,7 +86,7 @@ describe 'speedtest' do
         it do
           is_expected.to contain_cron('speedtest-run').with(
             ensure: 'present',
-            command: 'test $(date +%u) -eq 2 && /usr/bin/flock -n /var/lock/speedtest-run.lock /usr/local/bin/speedtest-run.sh',
+            command: 'test $(date +\%u) -eq 2 && /usr/bin/flock -n /var/lock/speedtest-run.lock /usr/local/bin/speedtest-run.sh',
             user: 'root'
           )
         end
@@ -112,7 +112,7 @@ describe 'speedtest' do
           it do
             is_expected.to contain_cron('speedtest-run').with(
               ensure: 'present',
-              command: 'test $(date +%u) -eq 2 && /usr/bin/flock -n /var/lock/speedtest-run.lock /foobar',
+              command: 'test $(date +\%u) -eq 2 && /usr/bin/flock -n /var/lock/speedtest-run.lock /foobar',
               user: 'root'
             )
           end
@@ -131,7 +131,7 @@ describe 'speedtest' do
           it do
             is_expected.to contain_cron('speedtest-run').with(
               ensure: 'present',
-              command: 'test $(date +%u) -eq 2 && /usr/bin/flock -n /var/lock/speedtest-run.lock /usr/local/bin/speedtest-run.sh',
+              command: 'test $(date +\%u) -eq 2 && /usr/bin/flock -n /var/lock/speedtest-run.lock /usr/local/bin/speedtest-run.sh',
               user: 'foobar'
             )
           end
@@ -142,7 +142,7 @@ describe 'speedtest' do
           it do
             is_expected.to contain_cron('speedtest-run').with(
               ensure: 'present',
-              command: 'test $(date +%u) -eq 5 && /usr/bin/flock -n /var/lock/speedtest-run.lock /usr/local/bin/speedtest-run.sh',
+              command: 'test $(date +\%u) -eq 5 && /usr/bin/flock -n /var/lock/speedtest-run.lock /usr/local/bin/speedtest-run.sh',
               user: 'root'
             )
           end
