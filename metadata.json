@@ -1,6 +1,6 @@
 {
   "name": "icann-speedtest",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "author": "Mauricio Vergara Ereche <mauricio.vergara@icann.org>",
   "summary": "Command line interface for testing internet bandwidth using speedtest.net",
   "license": "Apache-2.0",

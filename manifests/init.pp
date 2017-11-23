@@ -17,7 +17,7 @@ class speedtest (
   Boolean                        $download_test     = true,
   Enum['json', 'csv']            $output_format     = 'csv',
   Boolean                        $enable_upload     = false,
-  Optional[Stdlib::Absolutepath] $upload_dir        = undef,
+  Optional[String]               $upload_dir        = undef,
   Optional[Tea::Host]            $upload_host       = undef,
   Optional[Tea::Puppetsource]    $upload_key_source = undef,
   String                         $upload_user       = 'speedtest',
