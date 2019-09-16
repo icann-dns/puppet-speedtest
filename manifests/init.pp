@@ -62,8 +62,8 @@ class speedtest (
     destination_host => $upload_host,
     ssh_key_source   => $upload_key_source,
     ssh_user         => $upload_user,
-    monthday         => $monthday,
-    hour_frequency   => $_hour +1,
-    minute_frequency => $_minute,
+    monthday         => [$monthday ],
+    hour_frequency   => [$_hour +1 ],
+    minute_frequency => [$_minute ],
   }
 }
