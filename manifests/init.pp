@@ -38,6 +38,7 @@ class speedtest (
     group  => $group,
     owner  => $user;
   }
+
   $_hour = [fqdn_rand(23),]
   $_minute = [fqdn_rand(60),]
 
@@ -46,7 +47,7 @@ class speedtest (
     command  => "test $(date +\\%u) -eq ${weekday} && /usr/bin/flock -n /var/lock/speedtest-run.lock ${speedtest_run}",
     user     => $user,
     require  => [ Package[$package], File[$speedtest_run]],
-    monthday => [$monthday],
+    monthday => $monthday,
     hour     => $_hour,
     minute   => $_minute,
   }
@@ -62,7 +63,6 @@ class speedtest (
     destination_host => $upload_host,
     ssh_key_source   => $upload_key_source,
     ssh_user         => $upload_user,
-    monthday         => $monthday,
     hour_frequency   => $_hour +1,
     minute_frequency => $_minute,
   }
