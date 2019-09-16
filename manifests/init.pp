@@ -39,17 +39,14 @@ class speedtest (
     owner  => $user;
   }
 
-  $_hour = [fqdn_rand(23),]
-  $_minute = [fqdn_rand(60),]
-
   cron {'speedtest-run':
     ensure   => $ensure,
     command  => "test $(date +\\%u) -eq ${weekday} && /usr/bin/flock -n /var/lock/speedtest-run.lock ${speedtest_run}",
     user     => $user,
     require  => [ Package[$package], File[$speedtest_run]],
     monthday => $monthday,
-    hour     => $_hour,
-    minute   => $_minute,
+    hour     => [fqdn_rand(23),],
+    minute   => [fqdn_rand(60),],
   }
   if !$upload_dir or !$upload_key_source or !$upload_user or !$upload_host {
     fail('if using enable_upload then you must specify all $upload_dir, $upload_key_source, $upload_user and $upload_host')
@@ -63,7 +60,7 @@ class speedtest (
     destination_host => $upload_host,
     ssh_key_source   => $upload_key_source,
     ssh_user         => $upload_user,
-    hour_frequency   => 1 + $_hour,
-    minute_frequency => $_minute,
+    hour_frequency   => [1 + fqdn_rand(23),],
+    minute_frequency => [fqdn_rand(60),],
   }
 }
