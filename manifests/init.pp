@@ -16,7 +16,6 @@ class speedtest (
   Boolean                        $upload_test       = true,
   Boolean                        $download_test     = true,
   Enum['json', 'csv']            $output_format     = 'csv',
-  Boolean                        $enable_upload     = false,
   Optional[String]               $upload_dir        = undef,
   Optional[Tea::Host]            $upload_host       = undef,
   Optional[Tea::Puppetsource]    $upload_key_source = undef,
@@ -39,28 +38,32 @@ class speedtest (
     group  => $group,
     owner  => $user;
   }
+  $_hour = fqdn_rand(23)
+  $_minute = fqdn_rand(60)
+
   cron {'speedtest-run':
     ensure   => $ensure,
     command  => "test $(date +\\%u) -eq ${weekday} && /usr/bin/flock -n /var/lock/speedtest-run.lock ${speedtest_run}",
     user     => $user,
     require  => [ Package[$package], File[$speedtest_run]],
     monthday => $monthday,
-    hour     => fqdn_rand(23),
-    minute   => fqdn_rand(59),
+    hour     => $_hour,
+    minute   => $_minute,
   }
-  if $enable_upload {
-    if !$upload_dir or !$upload_key_source or !$upload_user or !$upload_host {
-      fail('if using enable_upload then you must specify all $upload_dir, $upload_key_source, $upload_user and $upload_host')
-    }
-    include ::file_upload
-    file_upload::upload { 'speedtest':
-      ensure           => $ensure,
-      data             => $output_dir,
-      patterns         => ["${output_file_name}*${output_format}"],
-      destination_path => $upload_dir,
-      destination_host => $upload_host,
-      ssh_key_source   => $upload_key_source,
-      ssh_user         => $upload_user,
-    }
+  if !$upload_dir or !$upload_key_source or !$upload_user or !$upload_host {
+    fail('if using enable_upload then you must specify all $upload_dir, $upload_key_source, $upload_user and $upload_host')
+  }
+  include ::file_upload
+  file_upload::upload { 'speedtest':
+    ensure           => $ensure,
+    data             => $output_dir,
+    patterns         => ["${output_file_name}*${output_format}"],
+    destination_path => $upload_dir,
+    destination_host => $upload_host,
+    ssh_key_source   => $upload_key_source,
+    ssh_user         => $upload_user,
+    monthday         => $monthday,
+    hour_frequency   => $_hour +1,
+    minute_frequency => $_minute,
   }
 }
