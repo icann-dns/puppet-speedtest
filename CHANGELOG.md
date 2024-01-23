@@ -1,3 +1,6 @@
+### 2024-01-23 0.3.1
+* Bug: remove reference to params class
+
 ### 2024-01-23 0.3.0
 * Switch to python3 version
 

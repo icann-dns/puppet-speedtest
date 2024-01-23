@@ -38,7 +38,7 @@ class speedtest (
   Optional[Tea::Host]            $upload_host       = undef,
   Optional[Tea::Puppetsource]    $upload_key_source = undef,
   String                         $upload_user       = 'speedtest',
-) inherits speedtest::params {
+) {
   $_output_file = "${output_dir}/${output_file_name}.${output_format}"
   package { $package:
     provider => 'pip3',
