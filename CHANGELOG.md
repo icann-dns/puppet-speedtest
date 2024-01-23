@@ -1,3 +1,6 @@
+### 2024-01-23 0.2.0
+* Switch to python3 version
+
 ### 2017-11-23 0.1.9
 * allow strings i.e. relative path for upload_dir
 
