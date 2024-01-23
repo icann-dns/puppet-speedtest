@@ -41,7 +41,7 @@ class speedtest (
 ) inherits speedtest::params {
   $_output_file = "${output_dir}/${output_file_name}.${output_format}"
   package { $package:
-    provider => 'pip',
+    provider => 'pip3',
   }
   file { $speedtest_run:
     ensure  => file,
